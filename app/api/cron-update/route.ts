@@ -1,23 +1,24 @@
 // app/api/cron-update/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { getAllLinks, updateLinkData } from "@/lib/db";
+import { getAllSubs, updateSubData } from "@/lib/db";
 import { extractLinkData } from "@/lib/puppeteer";
 
 export async function POST(request: NextRequest) {
   try {
-    const links = await getAllLinks();
+    const subs = await getAllSubs();
     let updatedCount = 0;
     let failedCount = 0;
 
     // آپدیت تک‌تک با تاخیر
-    for (const link of links) {
+    for (const sub of subs) {
       try {
-        const data = await extractLinkData(link.slug);
+        const data = await extractLinkData(sub.sub_link);
 
-        await updateLinkData(link.id, {
-          data_limit: data.dataLimit || undefined,
-          data_used: data.dataUsed || undefined,
-          expire_days: data.expireDays || undefined,
+        await updateSubData(sub.id, {
+          username: data.username || undefined,
+          total_volume_gb: data.total_volume_gb || undefined,
+          used_volume_gb: data.used_volume_gb || undefined,
+          duration_days: data.duration_days || undefined,
         });
 
         updatedCount++;
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
         // تاخیر ۲ ثانیه‌ای بین هر آپدیت برای جلوگیری از بلاک شدن
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (error) {
-        console.error(`Failed to update link ${link.id}:`, error);
+        console.error(`Failed to update subscription ${sub.id}:`, error);
         failedCount++;
       }
     }
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
       message: "Batch update completed",
       updatedCount,
       failedCount,
-      total: links.length,
+      total: subs.length,
     });
   } catch (error) {
     return NextResponse.json({ error: "Batch update failed" }, { status: 500 });
