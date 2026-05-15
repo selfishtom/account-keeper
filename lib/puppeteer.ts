@@ -10,9 +10,7 @@ interface LinkData {
 
 export async function extractLinkData(link: string): Promise<LinkData> {
   const browser = await puppeteer.launch({
-    executablePath:
-      process.env.CHROME_PATH ||
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    executablePath: process.env.CHROME_PATH || "/usr/bin/google-chrome",
     headless: true,
     args: [
       "--no-sandbox",
@@ -20,18 +18,34 @@ export async function extractLinkData(link: string): Promise<LinkData> {
       "--disable-dev-shm-usage",
       "--disable-gpu",
     ],
+    timeout: 60000,
   });
 
   try {
     const page = await browser.newPage();
+
+    // غیرفعال کردن CSS و تصاویر برای لود سریعتر
+    await page.setRequestInterception(true);
+    page.on("request", (req) => {
+      if (
+        req.resourceType() === "stylesheet" ||
+        req.resourceType() === "image" ||
+        req.resourceType() === "font"
+      ) {
+        req.abort();
+      } else {
+        req.continue();
+      }
+    });
+
     await page.setJavaScriptEnabled(false);
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
     );
 
     await page.goto(link, {
-      waitUntil: "domcontentloaded",
-      timeout: 5000,
+      waitUntil: "load",
+      timeout: 60000,
     });
 
     const username = await page.$eval(".info-item:nth-child(1)", (el) => {
