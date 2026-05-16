@@ -1,7 +1,7 @@
 // app/manager/layout.tsx
 export const metadata = {
-  title: "مدیریت اکانت ها",
-  description: "پنل مدیریت اکانت ها",
+  title: "Account Keeper",
+  description: "Panel Account Keeper Login",
 };
 
 export default function ManagerLayout({

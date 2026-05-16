@@ -16,7 +16,21 @@ export async function extractLinkData(link: string): Promise<LinkData> {
       "--no-sandbox",
       "--disable-setuid-sandbox",
       "--disable-dev-shm-usage",
+      "--single-process",
       "--disable-gpu",
+      "--disable-extensions",
+      "--no-zygote",
+      "--disable-background-networking",
+      "--disable-sync",
+      "--disable-translate",
+      "--hide-scrollbars",
+      "--mute-audio",
+      "--no-first-run",
+      "--disable-web-security",
+      "--disable-features=TranslateUI",
+      "--disable-ipc-flooding-protection",
+      "--memory-pressure-off",
+      "--max-old-space-size=256",
     ],
     timeout: 60000,
   });
@@ -51,7 +65,7 @@ export async function extractLinkData(link: string): Promise<LinkData> {
     const username = await page.$eval(".info-item:nth-child(1)", (el) => {
       const text = el.textContent?.trim() || "";
       const match = text.match(/AlaedinJet\s*(\S+)/i);
-      return match ? match[0] : null;
+      return match ? match[1] : null;
     });
 
     // استخراج Data Limit

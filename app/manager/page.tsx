@@ -156,6 +156,11 @@ export default function ManagerPage() {
     }
   };
 
+  const handleLogout = async () => {
+    await fetch("/api/auth", { method: "DELETE" });
+    window.location.href = "/login";
+  };
+
   // Loading State
   if (isLoading) {
     return (
@@ -253,6 +258,13 @@ export default function ManagerPage() {
                     بروزرسانی همه
                   </>
                 )}
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                خروج
               </button>
             </div>
           </div>
