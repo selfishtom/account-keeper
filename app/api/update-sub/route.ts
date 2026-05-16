@@ -1,7 +1,7 @@
 // app/api/update-sub/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { updateSubData, getSubById } from "@/lib/db";
-import { extractLinkData } from "@/lib/puppeteer";
+import { extractLinkData } from "@/lib/scraper";
 
 export async function PATCH(request: NextRequest) {
   try {
@@ -26,9 +26,9 @@ export async function PATCH(request: NextRequest) {
     // آپدیت دیتابیس
     await updateSubData(id, {
       username: data.username || undefined,
-      total_volume_gb: data.total_volume_gb || undefined,
-      used_volume_gb: data.used_volume_gb || undefined,
-      duration_days: data.duration_days || undefined,
+      total_volume_gb: Number(data.dataLimit) || undefined,
+      used_volume_gb: Number(data.dataUsed) || undefined,
+      duration_days: Number(data.daysRemaining) || undefined,
     });
 
     return NextResponse.json({
@@ -36,9 +36,9 @@ export async function PATCH(request: NextRequest) {
       data: {
         id,
         username: data.username,
-        total_volume_gb: data.total_volume_gb,
-        used_volume_gb: data.used_volume_gb,
-        duration_days: data.duration_days,
+        total_volume_gb: Number(data.dataLimit),
+        used_volume_gb: Number(data.dataUsed),
+        duration_days: Number(data.daysRemaining),
       },
     });
   } catch (error) {

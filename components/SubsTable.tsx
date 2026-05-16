@@ -19,6 +19,7 @@ interface SubRecord {
   expired_at: Date | null;
   bought_from: string | null;
   notes: string | null;
+  full_name?: string | null;
 }
 
 interface SubsTableProps {
@@ -61,8 +62,8 @@ export default function SubsTable({
             <th className="p-4 text-right">نام کاربر</th>
             <th className="p-4 text-right">مصرف حجم</th>
             <th className="p-4 text-right">روزهای باقی‌مانده</th>
-            {/* <th className="p-4 text-right">آخرین بروزرسانی</th> */}
             <th className="p-4 text-right">عملیات</th>
+            {/* <th className="p-4 text-right">آخرین بروزرسانی</th> */}
           </tr>
         </thead>
         <tbody>
@@ -72,7 +73,10 @@ export default function SubsTable({
               className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50"
             >
               {/* نام کاربر */}
-              <td className="p-4 font-medium">{sub.sub_id}</td>
+              <td className="p-4 font-medium">
+                {sub.full_name == null ? "No assigned yet" : sub.full_name} -{" "}
+                {sub.sub_id}
+              </td>
 
               {/* Progress Bar */}
               <td className="p-4 min-w-[250px]">
