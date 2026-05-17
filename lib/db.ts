@@ -30,7 +30,7 @@ export interface SubRecord {
 
 export async function getAllSubs(): Promise<SubRecord[]> {
   const [rows] = await pool.query(
-    "SELECT s.*, (SELECT u.full_name FROM users u WHERE u.id = s.assigned_to) AS full_name FROM subs s ORDER BY s.usage_percentage DESC",
+    "SELECT s.*, (SELECT u.full_name FROM users u WHERE u.id = s.assigned_to) AS full_name FROM subs s ORDER BY s.usage_percentage ASC, s.duration_days DESC",
   );
   return rows as SubRecord[];
 }

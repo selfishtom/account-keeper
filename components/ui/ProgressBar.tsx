@@ -78,17 +78,17 @@ export default function ProgressBar({
     return (
       <div className={`${getBgClass()} p-4 rounded-xl border ${className}`}>
         {/* Header */}
-        <div className="flex justify-between items-center mb-2">
-          {showPercentage && (
+        <div className="flex justify-center mb-2">
+          {showDetails && (
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              {used} / {limit}
+            </span>
+          )}
+          {/* {showPercentage && (
             <span className={`text-sm font-bold ${getTextColorClass()}`}>
               {percentage.toFixed(1)}%
             </span>
-          )}
-          {showDetails && (
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              {used} / {limit} GB
-            </span>
-          )}
+          )} */}
         </div>
 
         {/* Progress Bar */}
@@ -122,21 +122,19 @@ export default function ProgressBar({
             <div>
               <p className="text-xs text-gray-500 dark:text-gray-400">کل</p>
               <p className="font-bold text-gray-800 dark:text-gray-200">
-                {limit} GB
+                {limit}
               </p>
             </div>
             <div>
               <p className="text-xs text-gray-500 dark:text-gray-400">مصرف</p>
-              <p className="font-bold text-red-600 dark:text-red-400">
-                {used} GB
-              </p>
+              <p className="font-bold text-red-600 dark:text-red-400">{used}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                باقی‌مانده
+                باقیمانده
               </p>
               <p className="font-bold text-green-600 dark:text-green-400">
-                {remaining.toFixed(1)} GB
+                {remaining.toFixed(1)}
               </p>
             </div>
           </div>
@@ -195,18 +193,18 @@ export default function ProgressBar({
           <div className="space-y-2">
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-400">کل:</span>
-              <span className="font-bold">{limit} GB</span>
+              <span className="font-bold">{limit} </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-400">مصرف:</span>
-              <span className="font-bold text-red-500">{used} GB</span>
+              <span className="font-bold text-red-500">{used} </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-400">
-                باقی‌مانده:
+                باقیمانده:
               </span>
               <span className="font-bold text-green-500">
-                {remaining.toFixed(1)} GB
+                {remaining.toFixed(1)}
               </span>
             </div>
           </div>

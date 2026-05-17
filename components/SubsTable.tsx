@@ -74,8 +74,7 @@ export default function SubsTable({
             >
               {/* نام کاربر */}
               <td className="p-4 font-medium">
-                {sub.full_name == null ? "No assigned yet" : sub.full_name} -{" "}
-                {sub.sub_id}
+                {sub.full_name == null ? "N.A" : sub.full_name} - {sub.sub_id}
               </td>
 
               {/* Progress Bar */}
